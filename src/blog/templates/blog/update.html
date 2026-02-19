@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+    {% block content %}
+
+        <div style="display: flex; gap: 20px; align-items: center;;background-color: rgb(58, 56, 56);height:40px">
+
+        <a href="{% url 'home' %}" style="text-decoration: none;">
+            🏠 Home
+        </a>
+
+        <a href="{% url 'blog' %}" style="text-decoration: none;">
+            📝 Blogs
+        </a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'blog-create' %}" style="text-decoration: none;">
+                ➕ Create Blog
+            </a>
+        {% else %}
+            <h6 style="color: red;">
+                You need to Login to create a blog
+            </h6>
+        {% endif %}
+
+    </div>
+
+
+    <h1  style="margin:50px;">Update Blog : {{ object.name }}</h1>
+    <form method="POST"  style="margin:50px;">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit">Update</button>
+    </form>
+    {% endblock content %}
+
