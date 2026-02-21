@@ -3,26 +3,22 @@
 {% block content %}
 
 
-    <div style="display: flex; gap: 20px; align-items: center;background-color: rgb(58, 56, 56);height:40px">
 
-        <a href="{% url 'home' %}" style="text-decoration: none;">
-            🏠 Home
-        </a>
 
-        <a href="{% url 'blog' %}" style="text-decoration: none;">
-            📝 Blogs
-        </a>
+    <div class="navbar">
 
-        {% if user.is_authenticated %}
-            <a href="{% url 'blog-create' %}" style="text-decoration: none;">
-                ➕ Create Blog
-            </a>
-        {% else %}
-            <h6 style="color: red;">
-                You need to Login to create a blog
-            </h6>
-        {% endif %}
+    <a href="{% url 'home' %}">🏠 Home</a>
 
+    <a href="{% url 'blog' %}">📝 Blogs</a>
+
+    {% if user.is_authenticated %}
+        <a href="{% if blogs.exists %}{{ blogs.first.get_create_url }}{% else %}/blog-create/{% endif %}" >➕ Create Blog</a>
+    {% else %}
+        <span class="warning">
+            You need to Login to create a blog
+        </span>
+    {% endif %}
+    
     </div>
 
 {% if blogs.count == 0 %}
@@ -32,27 +28,29 @@
 {% for blog in blogs %}
     <div style="border: 1px solid black; padding: 10px; margin: 50px;">
         
-        <a href="{% url 'blog-details' blog.slug %}">
+        <a href="{{blog.get_details_url}}" style="text-decoration: none; color: black;">
             <h3>{{ blog.name }}</h3>
         </a>
 
-        <h5>{{ blog.content }}</h5>
+        <h5>{{ blog.content | truncatewords:40 }}</h5>
 
         <!-- Update Icon -->
-        <a href="{% url 'blog-update' blog.slug %}" 
-           style="text-decoration: none; font-size: 18px;">
+        <div style="display: flex;align-items: center;justify-content:end;">
+                    <a href="{{ blog.get_update_url }}" 
+           style="text-decoration: none; font-size: 18px;margin-right:14px;">
             ✏️
         </a>
-        <a href="{% url 'blog-delete' blog.slug %}" 
+        <a href="{{ blog.get_delete_url }}" 
            style="text-decoration: none; font-size: 18px;">
             🗑️
         </a>
+        </div>
 
     </div>
 
 {% endfor %}
     <div class="blog-create">
-        <a href="{% url 'blog-create' %}" 
+        <a href="{% if blogs.exists %}{{ blogs.first.get_create_url }}{% else %}/blog-create/{% endif %}" 
            style="text-decoration: none; font-size: 18px;">
             ➕ Create New Blog
         </a>

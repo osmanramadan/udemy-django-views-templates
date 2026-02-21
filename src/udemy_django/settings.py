@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-@gs8qbxtxc=ja01m#*alf$30m=i1cd4ha665#-*rp05$%axp6p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS= []
 
 LOGIN_URL = '/login/'
 
@@ -118,4 +118,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+LOCAL_StATIC_CDN_PATH = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn_test')
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(LOCAL_StATIC_CDN_PATH, 'static') # live cdn aws s3 bucket
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, '')
+]
+
+
+# Media files
+MEDIA_ROOT = os.path.join(LOCAL_StATIC_CDN_PATH,'media')
+MEDIA_URL = '/media/'

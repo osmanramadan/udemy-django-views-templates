@@ -14,23 +14,24 @@ from django.http import Http404 , HttpResponse
 
 def list(request):
     blogs = Blog.objects.all()
-    context = {"blogs":blogs}
-    
+    context = {"blogs":blogs}    
     return render(request, 'blog/list.html',context)
 
 
 
 @staff_member_required
 def create(request):
-    form = BlogForm(request.POST or None)
 
+    form = BlogForm(request.POST or None, request.FILES or None)
+    
     if form.is_valid():
         obj = form.save(commit=False)
         obj.user = request.user
         obj.save()
         form = BlogForm()
         return redirect('blog')
-
+    
+    
     return render(request, 'blog/create.html', {'form': form})
 
 
@@ -44,7 +45,6 @@ def details(request,slug):
 
     #obj= get_object_or_404(Blog,slug=slug)
     
-    #obj = r.first()
     context = {"object":r}
     return render(request,"blog/details.html",context)
 
@@ -59,13 +59,14 @@ def update(request, slug):
     if not obj:
         return redirect('/')
 
-    form = BlogForm(request.POST or None, instance=obj)
+    form = BlogForm(request.POST or None,request.FILES or None,instance=obj)
 
     if form.is_valid():
         form.save()
         return redirect('blog')
 
     return render(request, 'blog/update.html', {'form': form,'object': obj})
+
 
 @staff_member_required
 def delete(request,slug):

@@ -2,26 +2,27 @@
 
 {% block content %}
 
-    <div style="display: flex; gap: 20px; align-items: center;;background-color: rgb(58, 56, 56);height:40px">
 
-        <a href="{% url 'home' %}" style="text-decoration: none;">
-            🏠 Home
-        </a>
+    <div class="navbar">
 
-        <a href="{% url 'blog' %}" style="text-decoration: none;">
-            📝 Blogs
-        </a>
+    <a href="{% url 'home' %}">🏠 Home</a>
 
-        {% if user.is_authenticated %}
-            <a href="{% url 'blog-create' %}" style="text-decoration: none;">
-                ➕ Create Blog
-            </a>
-        {% else %}
-            <h6 style="color: red;">
-                You need to Login to create a blog
-            </h6>
-        {% endif %}
+    <a href="{% url 'blog' %}">📝 Blogs</a>
 
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'blog-create' %}">➕ Create Blog</a>
+    {% else %}
+        <span class="warning">
+            You need to Login to create a blog
+        </span>
+    {% endif %}
+
+    <form method="GET" action="{% url 'blog' %}" style="display: inline-block; margin-left: 20px;">
+        <input type="text" name="q" placeholder="Search blogs..." style="padding: 5px; border-radius: 5px; border: 1px solid #ccc;">
+        <button type="submit" style="padding: 5px 10px; background: #333; color: white; border: none; border-radius: 5px; cursor: pointer;">Search</button>
+    </form>
+    
     </div>
 
     <hr>
