@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .navbar {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+        background-color: #3a3838;
+        padding: 10px 30px;
+    }
+
+    .navbar a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+        transition: 0.3s;
+    }
+
+    .navbar a:hover {
+        color: #00c3ff;
+    }
+
+    .warning {
+        color: #ff4d4d;
+        font-size: 14px;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 60px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .form-container h1 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .form-container button {
+        padding: 10px 20px;
+        background: #333;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .form-container button:hover {
+        background: #00c3ff;
+    }
+</style>
+
+
+<!-- Navbar -->
+<div class="navbar">
+
+    <a href="{% url 'home' %}">🏠 Home</a>
+
+    <a href="{% url 'blog' %}">📝 Blogs</a>
+
+    {% if user.is_authenticated %}
+        <a href="{{ object.get_create_url }}">➕ Create Blog</a>
+    {% else %}
+        <span class="warning">
+            You need to Login to create a blog
+        </span>
+    {% endif %}
+
+</div>
+
+
+<!-- Update Form Card -->
+<div class="form-container">
+
+    <h1>Update Blog: {{ object.name }}</h1>
+
+    <form method="POST"  enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update</button>
+    </form>
+
+</div>
+
+{% endblock content %}
