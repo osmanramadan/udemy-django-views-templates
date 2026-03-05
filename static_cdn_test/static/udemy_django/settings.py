@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@gs8qbxtxc=ja01m#*alf$30m=i1cd4ha665#-*rp05$%axp6p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS= []
+ALLOWED_HOSTS= ['*']
 
 LOGIN_URL = '/login/'
 
@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'udemy_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -121,7 +121,7 @@ USE_TZ = True
 LOCAL_StATIC_CDN_PATH = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn_test')
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(LOCAL_StATIC_CDN_PATH, 'static') # live cdn aws s3 bucket
+STATIC_ROOT = os.path.join(LOCAL_StATIC_CDN_PATH, 'static') 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, '')
 ]

@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@gs8qbxtxc=ja01m#*alf$30m=i1cd4ha665#-*rp05$%axp6p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS= ['*']
 
@@ -35,6 +35,8 @@ LOGIN_URL = '/login/'
 
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',
+    'cloudinary',
+    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +45,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+}
+#from dotenv import load_dotenv
+#load_dotenv()
+#print(os.environ.get('CLOUDINARY_CLOUD_NAME'))
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -121,7 +134,7 @@ USE_TZ = True
 LOCAL_StATIC_CDN_PATH = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn_test')
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(LOCAL_StATIC_CDN_PATH, 'static') # live cdn aws s3 bucket
+STATIC_ROOT = os.path.join(LOCAL_StATIC_CDN_PATH, 'static') 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, '')
 ]
