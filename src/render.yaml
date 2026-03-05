@@ -1,5 +1,0 @@
-services:
-  - type: web
-    name: my-django-app
-    env: python
-    pythonVersion: "3.10"
